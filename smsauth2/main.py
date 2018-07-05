@@ -2,24 +2,27 @@ import requests, random
 
 class SMSAuthorizer:
 
-    def __init__(self, *, author: str, sid: str, token: str):
-        self.author = author_number
-        self.code_length = self.code_length
-        self.sid = sid
+    def __init__(self, **kwargs):
+        self.author = kwargs["author"]
+        self.sid = kwargs["sid"]
+        self.token = kwargs["token"]
 
     class FormatException(Exception):
         pass
 
-    def authorize(self, *, check: str, message: str=None, code_length: int):
+    def authorize(self, **kwargs):
         code = ""
-        for i in range(code_length):
+        for i in range(kwargs["code_length"]):
             code += str(random.randint(0, 9))
-        if not message:
+        if "message" not in kwargs.keys():
             message = "Your verification code is: " + code
         else:
-            message_l = message.split("[]")
+            message_l = kwargs["message"].split("[]")
             if len(message_l) != 2:
                 raise self.FormatException("Format your message with '[]' in place of the verification code.")
             message = message_l[0] + code + message_l[1]
-        requests.post("https://api.twilio.com/2010-04-01/Accounts/" + self.sid + "/Messages.json", data={"To": check, "From": self.author, "Body": "Test"}, auth=(self.sid, self.token))
+        r = requests.post("https://api.twilio.com/2010-04-01/Accounts/" + self.sid + "/Messages.json", data={"To": kwargs["check"], "From": self.author, "Body": message}, auth=(self.sid, self.token))
+        resp = r.json()
+        if resp["status"] != "queued":
+            raise RuntimeError("Status: " + str(resp["status"]) + "\n" + resp["message"] + "\nMore Info: " + resp["more_info"])
         return code
