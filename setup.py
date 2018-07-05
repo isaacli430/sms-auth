@@ -31,5 +31,13 @@ setup(
         'Programming Language :: Python :: 3.7'
 
     ],
-    packages=packages
+    packages=packages,
+    install_requires=[
+        'requests'
+    ],
+    extras_require={
+        ':python_version >= "3.6"': [
+            'aiohttp'
+        ],
+    }
 )
