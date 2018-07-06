@@ -10,7 +10,7 @@ else:
 
 setup(
     name='smsauth',
-    version='0.1.1',
+    version='0.1.2',
     description='Python API for SMS',
     long_description='An easy-to-use Python API for SMS Authentication',
     url='https://github.com/kwugfighter/sms-auth',
