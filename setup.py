@@ -1,16 +1,16 @@
 from setuptools import setup
 import sys
 
-if sys.version[:2] == (2, 7):
+if sys.version_info[:2] == (2, 7):
     packages = ['smsauth2']
-elif sys.version[:2] >= (3, 6):
+elif sys.version_info[:2] >= (3, 6):
     packages = ['smsauth3']
 else:
     raise RuntimeError("Python version 2.7 or >= 3.6 required.")
 
 setup(
     name='smsauth',
-    version='0.1.0',
+    version='0.1.1',
     description='Python API for SMS',
     long_description='An easy-to-use Python API for SMS Authentication',
     url='https://github.com/kwugfighter/sms-auth',
